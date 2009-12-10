@@ -12,6 +12,10 @@ class TC_Rack_Auth_Kerberos < Test::Unit::TestCase
     assert_nothing_raised{ Rack::Auth::Kerberos.new(@app) }
   end
 
+  def test_version
+    assert_equal('0.1.0', Rack::Auth::Kerberos::VERSION)
+  end
+
   def teardown
     @rack = nil
   end
