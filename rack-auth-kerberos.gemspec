@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |gem|
   gem.name      = 'rack-auth-kerberos'
-  gem.version   = '1.0.0'
+  gem.version   = '0.1.0'
   gem.authors   = ["Daniel Berger", "Charlie O'Keefe"]
   gem.email     = 'dberger@globe.gov'
   gem.homepage  = 'http://www.github.com/rack-kerberos'
