@@ -1,0 +1,18 @@
+require 'test/unit'
+require 'rack/auth/kerberos'
+
+class TC_Rack_Auth_Kerberos < Test::Unit::TestCase
+  def setup
+    @app  = 1 # Placeholder
+    @env  = 1 # Placeholder
+    @rack = Rack::Auth::Kerberos.new(@app)
+  end
+
+  def test_constructor_basic
+    assert_nothing_raised{ Rack::Auth::Kerberos.new(@app) }
+  end
+
+  def teardown
+    @rack = nil
+  end
+end

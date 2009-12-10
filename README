@@ -1,0 +1,31 @@
+= Description
+The rack-kerberos library is a Rack library that uses Kerberos to authenicate
+users against your Kerberos server.
+
+= Prerequisites
+rack 1.0.0 or later
+krb5-auth 0.7 or later
+
+= Usage
+use "Rack::Auth::Kerberos", "user_field", "password_field", "YOUR.REALM_NAME"
+
+= Default Fields
+The default user field is "username".
+The default password field is "password".
+The default realm is whatever you've got set in your krb5.conf file.
+
+= Details
+This rack library only handles requests that contain a username and password
+parameter. If both are not present, the request is forwarded normally.
+
+If a username and password are detected, then they're authenicated against
+your Kerberos server. If valid, then env['AUTH_USER'] is set to the username
+and env['AUTH_FAIL'] is deleted. If invalid, then env['AUTH_USER'] is deleted
+and env['AUTH_FAIL'] is set to an error message explaining what went wrong.
+
+Note that if env['AUTH_USER'] or env['AUTH_FAIL'] are already set, then the
+request is forwarded normally.
+
+= Authors
+Daniel Berger
+Charlie O'Keefe
