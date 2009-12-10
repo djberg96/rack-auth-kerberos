@@ -3,6 +3,9 @@ require 'krb5_auth'
 module Rack
   module Auth
     class Kerberos
+      # The version of the rack-auth-kerberos library.
+      VERSION = '0.1.0'
+
       # Creates a new Rack::Kerberos object. The +user_field+ and +password_field+
       # are the params looked for in the call method. The defaults are 'username'
       # and 'password', respectively.
