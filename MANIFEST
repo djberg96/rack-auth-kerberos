@@ -1,6 +1,7 @@
 CHANGES
 MANIFEST
 README
+Rakefile
 rack-kerberos.gemspec
 lib/rack/auth/kerberos.rb
 test/test_rack_kerberos.rb
