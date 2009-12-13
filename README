@@ -26,6 +26,10 @@ and env['AUTH_FAIL'] is set to an error message explaining what went wrong.
 Note that if env['AUTH_USER'] or env['AUTH_FAIL'] are already set, then the
 request is forwarded normally.
 
+= TODO
+Handle other types of authentication, e.g. HTTP basic auth with a username
+and password are submitted, instead of only looking in request params.
+
 = Authors
 Daniel Berger
 Charlie O'Keefe
