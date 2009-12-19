@@ -4,7 +4,7 @@ module Rack
   module Auth
     class Kerberos
       # The version of the rack-auth-kerberos library.
-      VERSION = '0.1.0'
+      VERSION = '0.2.0'
 
       # Creates a new Rack::Kerberos object. The +user_field+ and +password_field+
       # are the params looked for in the call method. The defaults are 'username'
@@ -66,7 +66,13 @@ module Rack
 
         begin
           @kerberos.get_init_creds_password(user_with_realm, password)
+          
           env['AUTH_USER'] = user
+          env['AUTH_TYPE'] = "Kerberos Password"
+          env['AUTH_TYPE_USER'] = user_with_realm
+          env['AUTH_TYPE_THIS_REQUEST'] = "Kerberos Password"
+          env['AUTH_DATETIME'] = Time.now.utc
+          
           env.delete('AUTH_FAIL')
         rescue Krb5Auth::Krb5::Exception => err
           case err.message
