@@ -44,6 +44,13 @@ module Rack
       # It is then up to the application to check for the presence of AUTH_USER
       # and/or AUTH_FAIL and act as necessary.
       #
+      # Several other request environment variables are set on success:
+      #
+      # AUTH_TYPE               => "Kerberos Password"
+      # AUTH_TYPE_USER          => user + realm
+      # AUTH_TYPE_THIS_REQUEST  => "Kerberos Password"
+      # AUTH_DATETIME           => Time.now.utc
+      #
       def call(env)
         request = Rack::Request.new(env)
 
@@ -66,14 +73,6 @@ module Rack
 
         begin
           @kerberos.get_init_creds_password(user_with_realm, password)
-          
-          env['AUTH_USER'] = user
-          env['AUTH_TYPE'] = "Kerberos Password"
-          env['AUTH_TYPE_USER'] = user_with_realm
-          env['AUTH_TYPE_THIS_REQUEST'] = "Kerberos Password"
-          env['AUTH_DATETIME'] = Time.now.utc
-          
-          env.delete('AUTH_FAIL')
         rescue Krb5Auth::Krb5::Exception => err
           case err.message
             when /client not found/i
@@ -89,6 +88,14 @@ module Rack
         rescue => err
           env.delete('AUTH_USER')
           env['AUTH_FAIL'] = "Unexpected failure during Kerberos authentication"
+        else
+          env.delete('AUTH_FAIL')
+
+          env['AUTH_USER'] = user
+          env['AUTH_TYPE'] = "Kerberos Password"
+          env['AUTH_TYPE_USER'] = user_with_realm
+          env['AUTH_TYPE_THIS_REQUEST'] = "Kerberos Password"
+          env['AUTH_DATETIME'] = Time.now.utc
         ensure
           @kerberos.close
         end

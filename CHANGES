@@ -1,7 +1,10 @@
+= 0.2.1 - 28-Dec-2009
+* Minor internal refactoring and documentation updates.
+
 = 0.2.0 - 19-Dec-2009
-* Several request environment variables are now set. This includes AUTH_USER,
-  AUTH_TYPE, AUTH_TYPE_USER, AUTH_TYPE_THIS_REQUEST and AUTH_DATETIME. See
-  the documentation for details.
+* Several request environment variables are now set. This includes AUTH_TYPE,
+  AUTH_TYPE_USER, AUTH_TYPE_THIS_REQUEST and AUTH_DATETIME. See the
+  documentation for details.
 
 = 0.1.0 - 11-Dec-2009
 * Initial release
