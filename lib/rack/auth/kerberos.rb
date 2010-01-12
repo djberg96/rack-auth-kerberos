@@ -4,7 +4,11 @@ module Rack
   module Auth
     class Kerberos
       # The version of the rack-auth-kerberos library.
-      VERSION = '0.2.1'
+      VERSION = '0.2.2'
+
+      def log(msg)
+        @log << "\n    #{msg}"
+      end
 
       # Creates a new Rack::Kerberos object. The +user_field+ and +password_field+
       # are the params looked for in the call method. The defaults are 'username'
@@ -28,6 +32,7 @@ module Rack
         else
           @realm = @kerberos.get_default_realm
         end
+        @log = "Initializing Rack::Auth::Kerberos"
       end
 
       # The call method we've defined first checks to see if the AUTH_USER
@@ -57,6 +62,7 @@ module Rack
         user = request.params[@user_field]
         password = request.params[@password_field]
 
+        log "Kerberos user: #{user}, password length: #{password.nil? ? 'nil' : password.size}"
         # Only authenticate user if both the username and password fields are present
         unless user && password
           return @app.call(env)
@@ -65,7 +71,8 @@ module Rack
         # Automatically append the realm if not already present
         user_with_realm = user.dup
         user_with_realm += "@#{@realm}" unless user.include?('@')
-
+        log "Kerberos user_with_realm: #{user_with_realm}"
+        
         # Do not authenticate if either one of these is set
         if env['AUTH_USER'] || env['AUTH_FAIL']
           return @app.call(env)
@@ -80,6 +87,7 @@ module Rack
             when /integrity check failed/i
               msg = "Invalid password for '#{user}'"
             else
+              log "Krb5Auth::Krb5::Exception: #{err.message}"
               msg = "Error attempting to validate userid and password"
           end
 
@@ -87,6 +95,7 @@ module Rack
           env['AUTH_FAIL'] = msg
         rescue => err
           env.delete('AUTH_USER')
+          log "Kerberos Unexpected Error: #{err.message}"
           env['AUTH_FAIL'] = "Unexpected failure during Kerberos authentication"
         else
           env.delete('AUTH_FAIL')
@@ -100,6 +109,8 @@ module Rack
           @kerberos.close
         end
 
+        log "Kerberos sign in results: AUTH_TYPE_USER=#{env['AUTH_TYPE_USER']}, AUTH_FAIL=#{env['AUTH_FAIL']}"
+        env['AUTH_LOG'] = @log
         @app.call(env)
       end
     end
