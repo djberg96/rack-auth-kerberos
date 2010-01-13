@@ -26,6 +26,9 @@ and env['AUTH_FAIL'] is set to an error message explaining what went wrong.
 Note that if env['AUTH_USER'] or env['AUTH_FAIL'] are already set, then the
 request is forwarded normally.
 
+Some details are logged in env['AUTH_LOG'], primarily for debugging purposes,
+if needed.
+
 = TODO
 Handle other types of authentication, e.g. HTTP basic auth with a username
 and password are submitted, instead of only looking in request params.
