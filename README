@@ -36,3 +36,4 @@ and password are submitted, instead of only looking in request params.
 = Authors
 Daniel Berger
 Charlie O'Keefe
+Marty Haught
