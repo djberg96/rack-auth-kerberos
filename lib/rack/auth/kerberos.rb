@@ -4,7 +4,7 @@ module Rack
   module Auth
     class Kerberos
       # The version of the rack-auth-kerberos library.
-      VERSION = '0.2.2'
+      VERSION = '0.2.3'
 
       def log(msg)
         @log << "\n    #{msg}"
@@ -32,7 +32,6 @@ module Rack
         else
           @realm = @kerberos.get_default_realm
         end
-        @log = "Initializing Rack::Auth::Kerberos"
       end
 
       # The call method we've defined first checks to see if the AUTH_USER
@@ -57,6 +56,7 @@ module Rack
       # AUTH_DATETIME           => Time.now.utc
       #
       def call(env)
+        @log = "Entering Rack::Auth::Kerberos"
         request = Rack::Request.new(env)
 
         user = request.params[@user_field]
