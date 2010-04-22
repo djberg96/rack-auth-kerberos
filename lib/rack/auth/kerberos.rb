@@ -1,14 +1,15 @@
 require 'krb5_auth'
 
+# The Rack module serves as a namespace only.
 module Rack
+
+  # The Auth module serves as a namespace only.
   module Auth
+
+    # The Kerberos class encapsulates kerberos authentication handling.
     class Kerberos
       # The version of the rack-auth-kerberos library.
-      VERSION = '0.2.3'
-
-      def log(msg)
-        @log << "\n    #{msg}"
-      end
+      VERSION = '0.2.4'
 
       # Creates a new Rack::Kerberos object. The +user_field+ and +password_field+
       # are the params looked for in the call method. The defaults are 'username'
@@ -22,16 +23,11 @@ module Rack
       # supply a username with or without a realm and it will Just Work (TM).
       #
       def initialize(app, user_field = 'username', password_field = 'password', realm = nil)
+        @kerberos = nil
         @app = app
         @user_field = user_field
         @password_field = password_field
-        @kerberos = Krb5Auth::Krb5.new
-
-        if realm
-          @realm = realm
-        else
-          @realm = @kerberos.get_default_realm
-        end
+        @realm = realm
       end
 
       # The call method we've defined first checks to see if the AUTH_USER
@@ -56,6 +52,9 @@ module Rack
       # AUTH_DATETIME           => Time.now.utc
       #
       def call(env)
+        @kerberos = Krb5Auth::Krb5.new
+        @realm ||= @kerberos.get_default_realm
+
         @log = "Entering Rack::Auth::Kerberos"
         request = Rack::Request.new(env)
 
@@ -63,6 +62,7 @@ module Rack
         password = request.params[@password_field]
 
         log "Kerberos user: #{user}, password length: #{password.nil? ? 'nil' : password.size}"
+
         # Only authenticate user if both the username and password fields are present
         unless user && password
           return @app.call(env)
@@ -112,6 +112,12 @@ module Rack
         log "Kerberos sign in results: AUTH_TYPE_USER=#{env['AUTH_TYPE_USER']}, AUTH_FAIL=#{env['AUTH_FAIL']}"
         env['AUTH_LOG'] = @log
         @app.call(env)
+      end
+
+      # Append a +msg+ to a @log string that can be used for logging & debugging.
+      #
+      def log(msg)
+        @log << "\n    #{msg}"
       end
     end
   end
