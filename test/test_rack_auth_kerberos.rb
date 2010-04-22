@@ -13,7 +13,7 @@ class TC_Rack_Auth_Kerberos < Test::Unit::TestCase
   end
 
   def test_version
-    assert_equal('0.2.3', Rack::Auth::Kerberos::VERSION)
+    assert_equal('0.2.4', Rack::Auth::Kerberos::VERSION)
   end
 
   def teardown
