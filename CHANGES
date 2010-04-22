@@ -1,3 +1,10 @@
+= 0.2.4 - 22-Apr-2010
+* Krb5Auth::Krb5 object creation has been moved from the constructor into the
+  call method in order to guarantee a new object is used every time. This solves
+  a potential issue where krb5-auth would segfault if it tried to use an object
+  that had already been closed.
+* Some minor documentation updates. 
+
 = 0.2.3 - 14-Jan-2010
 * Resetting log with each call now, instead of initialize
 
