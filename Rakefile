@@ -10,16 +10,19 @@ task :install do
   FileUtils.cp_r(file, dir, :verbose => true)
 end
  
-desc 'Build the gem'
-task :gem do
-  spec = eval(IO.read('rack-auth-kerberos.gemspec'))
-  Gem::Builder.new(spec).build
-end
+namespace 'gem' do
+  desc 'Create the gem'
+  task :create do
+    Dir['*.gem'].each{ |f| File.delete(f) }
+    spec = eval(IO.read('rack-auth-kerberos.gemspec'))
+    Gem::Builder.new(spec).build
+  end
  
-desc 'Install the rack-auth-kerberos library as a gem'
-task :install_gem => [:gem] do
-   file = Dir["*.gem"].first
-   sh "gem install #{file}"
+  desc 'Install the rack-auth-kerberos library as a gem'
+  task :install => [:create] do
+    file = Dir["*.gem"].first
+    sh "gem install #{file}"
+  end
 end
  
 desc 'Export the git archive to a .zip, .gz and .bz2 file in your home directory'

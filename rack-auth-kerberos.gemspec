@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('rack', '>= 1.0.0')
   gem.add_dependency('djberg96-krb5-auth', '>= 0.8.5')
+  gem.rubyforge_project = 'N/A'
   
   gem.description = <<-EOF
     The rack-kerberos library provides a Rack middleware interface for

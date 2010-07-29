@@ -1,5 +1,6 @@
 = 0.2.5 - 29-Jul-2010
 * Changed the dependency from krb5-auth to djberg96-krb5-auth.
+* Modified the rake tasks slightly.
 
 = 0.2.4 - 22-Apr-2010
 * Krb5Auth::Krb5 object creation has been moved from the constructor into the
