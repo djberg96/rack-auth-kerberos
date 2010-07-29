@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |gem|
   gem.name      = 'rack-auth-kerberos'
-  gem.version   = '0.2.4'
+  gem.version   = '0.2.5'
   gem.authors   = ["Daniel Berger", "Charlie O'Keefe", "Marty Haught"]
   gem.email     = 'dberger@globe.gov'
   gem.homepage  = 'http://www.github.com/rack-kerberos'
@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files = ['CHANGES', 'README', 'MANIFEST']
 
   gem.add_dependency('rack', '>= 1.0.0')
-  gem.add_dependency('krb5-auth', '>= 0.7')
+  gem.add_dependency('djberg96-krb5-auth', '>= 0.8.5')
   
   gem.description = <<-EOF
     The rack-kerberos library provides a Rack middleware interface for

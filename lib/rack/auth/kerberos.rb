@@ -9,7 +9,7 @@ module Rack
     # The Kerberos class encapsulates kerberos authentication handling.
     class Kerberos
       # The version of the rack-auth-kerberos library.
-      VERSION = '0.2.4'
+      VERSION = '0.2.5'
 
       # Creates a new Rack::Kerberos object. The +user_field+ and +password_field+
       # are the params looked for in the call method. The defaults are 'username'
