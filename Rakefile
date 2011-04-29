@@ -52,6 +52,8 @@ task :export, :output_file do |t, args|
 end
  
 Rake::TestTask.new do |t|
-   t.verbose = true
-   t.warning = true
+  t.verbose = true
+  t.warning = true
 end
+
+task :default => :test

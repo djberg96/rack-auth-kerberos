@@ -9,7 +9,7 @@ module Rack
     # The Kerberos class encapsulates kerberos authentication handling.
     class Kerberos
       # The version of the rack-auth-kerberos library.
-      VERSION = '0.2.5'
+      VERSION = '0.3.0'
 
       # Creates a new Rack::Kerberos object. The +user_field+ and +password_field+
       # are the params looked for in the call method. The defaults are 'username'
@@ -52,7 +52,7 @@ module Rack
       # AUTH_DATETIME           => Time.now.utc
       #
       def call(env)
-        @kerberos = Krb5Auth::Krb5.new
+        @kerberos = Kerberos::Krb5.new
         @realm ||= @kerberos.get_default_realm
 
         @log = "Entering Rack::Auth::Kerberos"
@@ -72,7 +72,7 @@ module Rack
         user_with_realm = user.dup
         user_with_realm += "@#{@realm}" unless user.include?('@')
         log "Kerberos user_with_realm: #{user_with_realm}"
-        
+
         # Do not authenticate if either one of these is set
         if env['AUTH_USER'] || env['AUTH_FAIL']
           return @app.call(env)
@@ -80,14 +80,14 @@ module Rack
 
         begin
           @kerberos.get_init_creds_password(user_with_realm, password)
-        rescue Krb5Auth::Krb5::Exception => err
+        rescue Kerberos::Krb5::Exception => err
           case err.message
             when /client not found/i
               msg = "Invalid userid '#{user}'"
             when /integrity check failed/i
               msg = "Invalid password for '#{user}'"
             else
-              log "Krb5Auth::Krb5::Exception: #{err.message}"
+              log "Kerberos::Krb5::Exception: #{err.message}"
               msg = "Error attempting to validate userid and password"
           end
 
