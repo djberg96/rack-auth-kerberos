@@ -3,8 +3,8 @@ The rack-kerberos library is a Rack library that uses Kerberos to authenicate
 users against your Kerberos server.
 
 = Prerequisites
-rack 1.0.0 or later
-krb5-auth 0.7 or later
+* rack 1.0.0 or later
+* rkerberos 0.1.0 or later
 
 = Usage
 use "Rack::Auth::Kerberos", "user_field", "password_field", "YOUR.REALM_NAME"
